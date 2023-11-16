@@ -1,0 +1,55 @@
+{
+  "name": "mariadb",
+  "version": "3.3",
+  "description": "MariaDB packaged for Esy",
+  "license": "MariaDB Licence",
+  "source": "https://github.com/mariadb-corporation/mariadb-connector-c#458a4396b443dcefedcf464067560078aa09d8b4#2c930262860ebd85c45e9193477fccd636d674d8",
+  "override": {
+    "buildEnv": {
+      "CFLAGS": "-I#{esy-openssl.install / 'include'} $CFLAGS",
+      "LDFLAGS": "-L#{esy-openssl.lib} -lcrypto $LDFLAGS"
+    },
+    "build": [
+      "mkdir bld",
+      "cd bld",
+      "cmake .. -DCMAKE_C_FLAGS=-Wno-deprecated-non-prototype",
+      "make"
+    ],
+    "install": "make install",
+    "buildsInSource": true,
+    "exportedEnv": {
+      "PKG_CONFIG_PATH": {
+        "scope": "global",
+        "val": "#{self.lib / 'pkgconfig'}"
+      },
+      "LDFLAGS": {
+        "scope": "global",
+        "val": "-L#{self.lib} -lpq"
+      },
+      "CPPFLAGS": {
+        "scope": "global",
+        "val": "-I#{self.install / 'include'}"
+      },
+      "LD_LIBRARY_PATH": {
+        "scope": "global",
+        "val": "#{self.lib}:$LD_LIBRARY_PATH"
+      },
+      "LIBRARY_PATH": {
+        "scope": "global",
+        "val": "#{self.lib}:$LIBRARY_PATH"
+      },
+      "CPATH": {
+        "scope": "global",
+        "val": "#{self.install / 'include'}:$CPATH"
+      },
+      "PATH": {
+        "scope": "global",
+        "val": "#{self.bin}:$PATH"
+      }
+    },
+    "dependencies": {
+      "esy-zlib": "esy-packages/esy-zlib",
+      "esy-openssl": "esy-packages/esy-openssl"
+    }
+  }
+}
