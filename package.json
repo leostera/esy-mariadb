@@ -3,7 +3,7 @@
   "version": "3.3",
   "description": "MariaDB packaged for Esy",
   "license": "MariaDB Licence",
-  "source": "https://github.com/mariadb-corporation/mariadb-connector-c#458a4396b443dcefedcf464067560078aa09d8b4#2c930262860ebd85c45e9193477fccd636d674d8",
+  "source": "https://archive.mariadb.org/mariadb-11.1.3/source/mariadb-11.1.3.tar.gz#sha256:ad3aa6ae478179275ecb28e3ed8a578f2004f084e14409727c0bf04975ace36c",
   "override": {
     "buildEnv": {
       "CFLAGS": "-I#{esy-openssl.install / 'include'} $CFLAGS",
@@ -11,11 +11,9 @@
     },
     "build": [
       "mkdir bld",
-      "cd bld",
-      "cmake .. -DCMAKE_C_FLAGS=-Wno-deprecated-non-prototype",
-      "make"
+      "cd bld && cmake .. -DCMAKE_C_FLAGS=-Wno-deprecated-non-prototype && make"
     ],
-    "install": "make install",
+    "install": "cd bld && make install",
     "buildsInSource": true,
     "exportedEnv": {
       "PKG_CONFIG_PATH": {
@@ -48,8 +46,8 @@
       }
     },
     "dependencies": {
-      "esy-zlib": "esy-packages/esy-zlib",
-      "esy-openssl": "esy-packages/esy-openssl"
+      "esy-openssl": "*",
+      "esy-cmake": "*"
     }
   }
 }
